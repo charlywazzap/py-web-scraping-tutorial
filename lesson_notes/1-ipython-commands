@@ -1,0 +1,16 @@
+In [10]: import requests
+
+In [11]: from bs4 import BeautifulSoup
+
+In [12]: PAGE = "http://localhost:8000/auto_mpg.html"
+
+In [13]: results = requests.get(PAGE)
+
+In [14]: results.status_code
+Out[14]: 200
+
+NameError: name 'result' is not defined
+
+In [16]: source = results.text
+
+In [17]: soup = BeautifulSoup(source, 'html.parser')

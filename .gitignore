@@ -1,2 +1,4 @@
 web-scrape/bin
 web-scrape/include
+web-scrape/lib
+.DS_Store
