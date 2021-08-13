@@ -1,0 +1,232 @@
+from bs4 import BeautifulSoup
+import requests
+PAGE = "http://localhost:8000/auto_mpg.html"
+result = requests.get(PAGE)
+source = result.text
+soup = BeautifulSoup(source,'html.parser')
+import re
+
+In [5]: soup.title
+Out[5]: <title>Example Car Dataset</title>
+
+In [6]: soup.title.get_text()
+   ...: soup.title.text
+Out[6]: 'Example Car Dataset'
+
+In [7]: soup.title.get_text()
+Out[7]: 'Example Car Dataset'
+
+In [8]: soup.html.head
+Out[8]: 
+<head>
+<meta charset="utf-8"/>
+<title>Example Car Dataset</title>
+<style>
+      body {
+        background-color: rgb(0, 0, 0);
+        color: rgb(211, 211, 211);
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0 20px;
+      }
+      a:link {
+        color: rgb(211, 211, 211);
+      }
+      a:visited {
+        color: rgb(211, 211, 211);
+      }
+      div.car_block {
+        background-color: rgb(34, 34, 34);
+        padding: 15px 20px;
+        border-left: 4px solid rgb(232, 10, 137);
+      }
+      .car_name {
+        color: rgb(211, 211, 211);
+        font-size: large;
+      }
+      .mpg {
+        font-weight:bold;
+      }
+      .from {
+        color: rgb(106, 116, 116);
+        font-size: small;
+      }
+      .weight {
+        font-style: italic;
+      }
+      </style>
+</head>
+
+In [9]: soup.head
+Out[9]: 
+<head>
+<meta charset="utf-8"/>
+<title>Example Car Dataset</title>
+<style>
+      body {
+        background-color: rgb(0, 0, 0);
+        color: rgb(211, 211, 211);
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0 20px;
+      }
+      a:link {
+        color: rgb(211, 211, 211);
+      }
+      a:visited {
+        color: rgb(211, 211, 211);
+      }
+      div.car_block {
+        background-color: rgb(34, 34, 34);
+        padding: 15px 20px;
+        border-left: 4px solid rgb(232, 10, 137);
+      }
+      .car_name {
+        color: rgb(211, 211, 211);
+        font-size: large;
+      }
+      .mpg {
+        font-weight:bold;
+      }
+      .from {
+        color: rgb(106, 116, 116);
+        font-size: small;
+      }
+      .weight {
+        font-style: italic;
+      }
+      </style>
+</head>
+
+In [11]: soup.head.parent.name
+Out[11]: 'html'
+
+In [13]: soup.body.text[:100]
+Out[13]: '\nExample Car Datasheet (1970-1982)\nThis data comes from a public source with citation \n"Dua, D. and '
+
+In [15]: soup.body.h1
+Out[15]: <h1>Example Car Datasheet (1970-1982)</h1>
+
+In [16]: soup.body.p.text
+Out[16]: 'This data comes from a public source with citation \n"Dua, D. and Karra Taniskidou, E. (2017). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science." and \nis referenced in "Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning. In Proceedings on the Tenth International Conference of Machine Learning, 236-243, University of Massachusetts, Amherst. Morgan Kaufmann.".\n'
+
+In [17]: soup.body.h1.next_sibling
+Out[17]: '\n'
+
+In [18]: In [17]: soup.body.h1.next_sibling.next_sibling
+Out[18]: 
+<p>This data comes from a <a href="https://archive.ics.uci.edu/ml/datasets/Auto%2BMPG">public source</a> with citation 
+"Dua, D. and Karra Taniskidou, E. (2017). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science." and 
+is referenced in "Quinlan,R. (1993). Combining Instance-Based and Model-Based Learning. In Proceedings on the Tenth International Conference of Machine Learning, 236-243, University of Massachusetts, Amherst. Morgan Kaufmann.".
+</p>
+
+In [19]: soup.body.a
+Out[19]: <a href="https://archive.ics.uci.edu/ml/datasets/Auto%2BMPG">public source</a>
+
+In [20]: soup.body.a.attrs
+Out[20]: {'href': 'https://archive.ics.uci.edu/ml/datasets/Auto%2BMPG'}
+
+In [21]: soup.body.a.attrs["href"]
+Out[21]: 'https://archive.ics.uci.edu/ml/datasets/Auto%2BMPG'
+
+In [22]: soup.find_all('a')
+Out[22]: [<a href="https://archive.ics.uci.edu/ml/datasets/Auto%2BMPG">public source</a>]
+
+
+In [23]: soup.find(id='car-1')
+Out[23]: <div class="car_block" id="car-1"><span class="car_name">Chevrolet Chevelle Malibu</span> <span class="from">(1970, USA)</span> <br/> Achieves <span class="mpg">18.0 mpg</span> with <span class="cylinders">8</span> cylinders backed by <span class="horsepower">130</span> hp, 307.0 cubic inches of displacement, weighing <span class="weight">3,504</span> lbs with 0-60 mph acceleration in <span class="acceleration">12.0</span> seconds</div>
+
+In [24]: soup.find(id='card-1')
+
+In [25]: soup.find(id='card-1') is None
+Out[25]: True
+
+In [27]: len(soup.find_all('div', class_='car_block'))
+Out[27]: 406
+
+In [28]: div = soup.find_all('div', class_='car_block')[0]
+
+In [29]: print(div)
+<div class="car_block" id="car-1"><span class="car_name">Chevrolet Chevelle Malibu</span> <span class="from">(1970, USA)</span> <br/> Achieves <span class="mpg">18.0 mpg</span> with <span class="cylinders">8</span> cylinders backed by <span class="horsepower">130</span> hp, 307.0 cubic inches of displacement, weighing <span class="weight">3,504</span> lbs with 0-60 mph acceleration in <span class="acceleration">12.0</span> seconds</div>
+
+In [30]: div.get_text()
+Out[30]: 'Chevrolet Chevelle Malibu (1970, USA)  Achieves 18.0 mpg with 8 cylinders backed by 130 hp, 307.0 cubic inches of displacement, weighing 3,504 lbs with 0-60 mph acceleration in 12.0 seconds'
+
+In [31]: list(div.stripped_strings)
+Out[31]: 
+['Chevrolet Chevelle Malibu',
+ '(1970, USA)',
+ 'Achieves',
+ '18.0 mpg',
+ 'with',
+ '8',
+ 'cylinders backed by',
+ '130',
+ 'hp, 307.0 cubic inches of displacement, weighing',
+ '3,504',
+ 'lbs with 0-60 mph acceleration in',
+ '12.0',
+ 'seconds']
+
+ In [32]: div.find_all('span')
+Out[32]: 
+[<span class="car_name">Chevrolet Chevelle Malibu</span>,
+ <span class="from">(1970, USA)</span>,
+ <span class="mpg">18.0 mpg</span>,
+ <span class="cylinders">8</span>,
+ <span class="horsepower">130</span>,
+ <span class="weight">3,504</span>,
+ <span class="acceleration">12.0</span>]
+
+ In [34]: div.find('span',class_="mpg")
+Out[34]: <span class="mpg">18.0 mpg</span>
+
+
+In [35]: div.find('span',class_="mpg").text
+Out[35]: '18.0 mpg'
+
+In [37]: re.findall('.* cubic inches', div.text)
+Out[37]: ['Chevrolet Chevelle Malibu (1970, USA)  Achieves 18.0 mpg with 8 cylinders backed by 130 hp, 307.0 cubic inches']
+
+In [37]: re.findall('.* cubic inches', div.text)
+Out[37]: ['Chevrolet Chevelle Malibu (1970, USA)  Achieves 18.0 mpg with 8 cylinders backed by 130 hp, 307.0 cubic inches']
+
+In [38]: re.findall('.* \d+.\d+ cubic inches', div.text)
+Out[38]: ['Chevrolet Chevelle Malibu (1970, USA)  Achieves 18.0 mpg with 8 cylinders backed by 130 hp, 307.0 cubic inches']
+
+In [39]: re.findall('.* (\d+.\d+) cubic inches', div.text)
+Out[39]: ['307.0']
+
+In [41]: soup.find_all('span',class_="mpg")
+
+list(mpg.text for mpg in soup.find_all('span',class_="mpg"))
+
+In [45]: car_blocks = soup.find_all('div', class_='car_block')
+In [46]: len(car_blocks)
+Out[46]: 406
+
+In [47]: car_blocks?
+Type:           ResultSet
+String form:    [<div class="car_block" id="car-1"><span class="car_name">Chevrolet Chevelle Malibu</span> <span  <...> 20</span> lbs with 0-60 mph acceleration in <span class="acceleration">19.4</span> seconds</div>]
+Length:         406
+File:           /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/bs4/element.py
+Docstring:     
+A ResultSet is just a list that keeps track of the SoupStrainer
+that created it.
+Init docstring:
+Constructor.
+
+:param source: A SoupStrainer.
+:param result: A list of PageElements.
+
+In [49]: ?car_blocks
+Type:           ResultSet
+String form:    [<div class="car_block" id="car-1"><span class="car_name">Chevrolet Chevelle Malibu</span> <span  <...> 20</span> lbs with 0-60 mph acceleration in <span class="acceleration">19.4</span> seconds</div>]
+Length:         406
+File:           /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/bs4/element.py
+Docstring:     
+A ResultSet is just a list that keeps track of the SoupStrainer
+that created it.
+Init docstring:
+Constructor.
+
+:param source: A SoupStrainer.
+:param result: A list of PageElements
