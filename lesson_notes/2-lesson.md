@@ -1,4 +1,4 @@
-# Scaping
+# Scraping
 
 ## Important things
 

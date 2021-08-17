@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import pickle
 import os
+import csv
 
 PAGE = "http://localhost:8000/auto_mpg.html"
 
@@ -30,6 +31,11 @@ def process_car_blocks(soup):
   print(f"We have {len(rows)} rows of scrapped car data")
   print(rows[0])
   print(rows[-1])
+
+  with open("scraped_cars.csv","w") as f:
+    writer = csv.DictWriter(f,fieldnames=row.keys())
+    writer.writeheader()
+    writer.writerows(rows)
 
 def extract_name(cb):
   str_name = cb.find('span',class_='car_name').text
